@@ -2,14 +2,14 @@
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('angularGoogleMapsExample', ['ionic', 'ngCordova', 'uiGmapgoogle-maps',
+var app = angular.module('angularGoogleMapsExample', ['ionic', 'ngCordova', 'uiGmapgoogle-maps', 'fCsv',
     'angularGoogleMapsExample.controllers'])
 
     .config(function(uiGmapGoogleMapApiProvider) {
       uiGmapGoogleMapApiProvider.configure({
-        //key: 'your api key',
+        key: 'AIzaSyCCD9qpjFMDkGoH4GLP6Uyuy7o9m5ga8dM',
         //libraries: 'weather,geometry,visualization',
-        v: '3.17'
+        v: '3'
       });
     })
 

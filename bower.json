@@ -1,12 +1,14 @@
 {
   "name": "HelloIonic",
   "private": "true",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "angular": "1.3.13",
     "angular-google-maps": "~2.1.5",
     "ionic": "v1.0.0",
-    "ngCordova": "~0.1.17-alpha"
+    "ngCordova": "~0.1.17-alpha",
+    "angular-csv-service": "^0.1.0",
+    "lodash": "3.10.1",
+    "restangular": "^1.5.2"
   }
 }
