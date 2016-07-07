@@ -1,6 +1,8 @@
-angular.module('angularGoogleMapsExample.controllers', ['angularGoogleMapsExample.services'])
+angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
 
-  .controller('MapCtrl', function($scope, $rootScope, $timeout, $cordovaGeolocation, uiGmapGoogleMapApi, $http, fCsv, Yelp) {
+  .controller('MenuCtrl', function() {})
+
+  .controller('MapCtrl', function($scope, $rootScope, $ionicModal, $timeout, $cordovaGeolocation, uiGmapGoogleMapApi, $http, fCsv) {
 
     $scope.markers = [];
     $scope.infoVisible = false;
@@ -9,8 +11,8 @@ angular.module('angularGoogleMapsExample.controllers', ['angularGoogleMapsExampl
     $scope.show_detail = "none";
     $scope.visibleTypes = "all";
     $rootScope.script = "english";
-    //$scope.toggleLanguage = toggleLanguage;
-    //$scope.displayType = displayType;
+    $scope.toggleLanguage = toggleLanguage;
+    $scope.displayType = displayType;
     $scope.expand_details = expand_details;
     $scope.hide_details  = hide_details;
     $scope.detail = null;
@@ -26,6 +28,22 @@ angular.module('angularGoogleMapsExample.controllers', ['angularGoogleMapsExampl
     $scope.hideInfo = function() {
       $scope.infoVisible = false;
     };
+
+    function toggleLanguage() {
+      switch ($rootScope.script) {
+        case "english":
+          $rootScope.script = "chinese";
+          break;
+        default:
+          $rootScope.script = "english";
+      }
+    }
+
+    function displayType(name) {
+      $scope.visibleTypes = name;
+      $scope.typeSelectionModal.hide();
+      loadMarkers();
+    }
 
     var initializeMap = function(position) {
       if (position) {
@@ -54,7 +72,7 @@ angular.module('angularGoogleMapsExample.controllers', ['angularGoogleMapsExampl
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         },
-        zoom: 14
+        zoom: 15
       };
 
       // Make info window for marker show up above marker
@@ -67,24 +85,6 @@ angular.module('angularGoogleMapsExample.controllers', ['angularGoogleMapsExampl
 
       loadMarkers();
 
-      // Yelp.search(position).then(function(data) {
-      //   console.log(data);
-      //   for (var i = 0; i < 10; i++) {
-      //     var business = data.data.businesses[i];
-      //     $scope.markers.push({
-      //       id: i,
-      //       name: business.name,
-      //       url: business.url,
-      //       location: {
-      //         latitude: business.location.coordinate.latitude,
-      //         longitude: business.location.coordinate.longitude
-      //       }
-      //     });
-      //   }
-      // }, function(error) {
-      //   console.log("Unable to access yelp");
-      //   console.log(error);
-      // });
     };
 
     uiGmapGoogleMapApi.then(function(maps) {
@@ -108,9 +108,8 @@ angular.module('angularGoogleMapsExample.controllers', ['angularGoogleMapsExampl
 
     function loadMarkers() {
       $http.get('hk_taxi_stands.csv').then(function(resp) {
-        console.log("unfiltered", angular.fromJson(fCsv.toJson(resp.data)));
         $scope.markers = angular.fromJson(fCsv.toJson(resp.data)).filter(filterByType).map(toMarker);
-        console.log($scope.markers);
+        //console.log("markers", $scope.markers);
       });
     }
 
@@ -180,5 +179,17 @@ angular.module('angularGoogleMapsExample.controllers', ['angularGoogleMapsExampl
     function hide_details() {
       $scope.show_detail = "none";
     }
+
+    $ionicModal.fromTemplateUrl('type-selection-modal.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.typeSelectionModal = modal;
+    });
+
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() {
+      $scope.typeSelectionModal.remove();
+    });
 
   });

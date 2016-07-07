@@ -2,8 +2,8 @@
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // the 2nd parameter is an array of 'requires'
-var app = angular.module('angularGoogleMapsExample', ['ionic', 'ngCordova', 'uiGmapgoogle-maps', 'fCsv',
-    'angularGoogleMapsExample.controllers'])
+var app = angular.module('hk_taxi_stands', ['ionic', 'ngCordova', 'uiGmapgoogle-maps', 'fCsv',
+    'hk_taxi_stands.controllers'])
 
     .config(function(uiGmapGoogleMapApiProvider) {
       uiGmapGoogleMapApiProvider.configure({
@@ -30,14 +30,52 @@ var app = angular.module('angularGoogleMapsExample', ['ionic', 'ngCordova', 'uiG
 
       $stateProvider
 
-        .state('map', {
-          url: '/map',
-          templateUrl: 'templates/map.html',
-          controller: 'MapCtrl'
-        });
+      .state('app', {
+        url: '/app',
+        abstract: true,
+        templateUrl: 'templates/menu.html',
+        controller: 'MenuCtrl'
+      })
+
+      .state('app.map', {
+        url: '/map',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/map.html',
+            controller: 'MapCtrl'
+          }
+        }
+      })
+
+      .state('app.apps', {
+        url: '/apps',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/apps.html'
+          }
+        }
+      })
+
+      .state('app.depots', {
+        url: '/depots',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/depots.html'
+          }
+        }
+      })
+
+      .state('app.feedback', {
+        url: '/feedback',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/feedback.html'
+          }
+        }
+      });
 
       // if none of the above states are matched, use this as the fallback
-      $urlRouterProvider.otherwise('/map');
+      $urlRouterProvider.otherwise('/app/map');
 
     })
   ;
