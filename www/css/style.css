@@ -82,3 +82,31 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
     width: 100%;
   }
 }
+
+#otherapps div.list div.item p {
+  white-space: normal;
+}
+
+#otherapps div.list div.item-button-right a.button-balanced {
+  top: 54px;
+}
+
+#depots .item {
+  min-height: 77px;
+}
+
+#depots .item-icon-left .ion-android-car.U {color: #e60010;}
+#depots .item-icon-left .ion-android-car.N {color: #1ad230;}
+#depots .item-icon-left .ion-android-car.L {color: #1ab6d2;}
+
+#depots .item-button-right .button {
+  top: 20px;
+}
+
+#depots .item-button-right .button:nth-child(5) {
+  right: 70px;
+}
+
+#feedback img {
+  width: 100%;
+}

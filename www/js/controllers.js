@@ -163,4 +163,14 @@ angular.module('hk_taxi_stands.controllers', [])
       $scope.typeSelectionModal.remove();
     });
 
+  })
+
+  .controller('DepotsCtrl', function($scope, $rootScope, $http, fCsv) {
+
+    $http.get('hk_taxi_depots.csv').then(function(resp) {
+      //console.log("unfiltered", angular.fromJson(fCsv.toJson(resp.data)));
+      $scope.depots = angular.fromJson(fCsv.toJson(resp.data));
+      console.log("depots", $scope.depots);
+    });
+
   });

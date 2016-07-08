@@ -60,7 +60,8 @@ var app = angular.module('hk_taxi_stands', ['ionic', 'ngCordova', 'uiGmapgoogle-
         url: '/depots',
         views: {
           'menuContent': {
-            templateUrl: 'templates/depots.html'
+            templateUrl: 'templates/depots.html',
+            controller: 'DepotsCtrl'
           }
         }
       })

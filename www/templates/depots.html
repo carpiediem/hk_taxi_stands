@@ -1,8 +1,17 @@
 <ion-view view-title="Individual Taxi Depots">
-  <ion-content>
+  <ion-content id="depots">
     <div class="list">
-      <div class="item">
-        TBD
+      <div class="item item-icon-left item-button-right" ng-repeat="depot in depots">
+        <i class="icon ion-android-car {{depot.Category}}"></i>
+        <h2 ng-if="script!='chinese'">{{depot.Depot}}</h2>
+        <h2 ng-if="script=='chinese'">{{depot.Chinese}}</h2>
+        <p>{{depot.Region}}</p>
+        <a class="button button-positive" href="tel:{{depot['Phone A']}}">
+          <i class="icon ion-ios-telephone"></i>
+        </a>
+        <a class="button button-positive" href="tel:{{depot['Phone B']}}" ng-if="depot['Phone B']!=''">
+          <i class="icon ion-ios-telephone"></i>
+        </a>
       </div>
     </div>
   </ion-content>
