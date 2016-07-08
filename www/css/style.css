@@ -36,19 +36,43 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
   transition: 1s ease-in-out;
 }
 
-#detail.none { transform: translateY(0); }
-#detail.name { transform: translateY(-60px); }
-#detail.all  { transform: translateY(-300px); }
+#detail.none { transform: translateY( 30px); }
+#detail.name { transform: translateY(-70px); }
+#detail.all  { transform: translateY(-700px); }
 
-#detail .row {
+#detail .title {
+  background-color: #333;
+  padding: 5px;
+}
+
+#detail .title h1 {
   color: white;
+  margin: 0;
 }
 
-#detail .row h1 {
-  display: block;
-}
-
-#detail .row p {
-  display: block;
+#detail .title p {
+  color: #ddd;
   font-style: italic;
+}
+
+#detail a.button {
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  top: -30px;
+  right: 10px;
+  border-radius: 30px;
+  padding-top: 7px;
+}
+
+#detail img {
+  display: block;
+  width: 600px;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 600px) {
+  #detail img {
+    width: 100%;
+  }
 }

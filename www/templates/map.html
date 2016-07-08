@@ -12,15 +12,25 @@
 
     <ui-gmap-google-map center='map.center' zoom='map.zoom'>
       <ui-gmap-markers models="markers" coords="'location'" icon="'options.icon'" click="showInfo"></ui-gmap-markers>
-
-      <ui-gmap-window coords="infoBusiness.location" show="infoVisible" closeClick="hideInfo()"
-                      options="windowOptions">
-        <div>
-          <a target="_blank" href="{{infoBusiness.url}}">{{infoBusiness.name}}</a>
-        </div>
-      </ui-gmap-window>
-
     </ui-gmap-google-map>
+
+    <div id="detail" class="{{show_detail}}" ng-click="expand_details()" on-drag-up="expand_details()" on-drag-down="hide_details()">
+      <a class="button icon ion-android-walk" href="{{detail.directions}}" target="_blank"></a>
+      <div class="title">
+        <h1>{{detail.name}}</h1>
+        <p>
+          {{detail.district}} |
+          <span>Cross-Harbour Taxi Stand</span>
+        </p>
+      </div>
+      <div class="row">
+        <p>{{detail.description}}</p>
+        <span class="item-note">{{detail.hours}}</span>
+      </div>
+      <div class="row">
+        <img src="{{detail.image}}" />
+      </div>
+    </div>
 
   </ion-content>
 
@@ -69,5 +79,5 @@
       </ion-content>
     </ion-modal-view>
   </script>
-  
+
 </ion-view>

@@ -20,8 +20,12 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
 
     // Initialize and show infoWindow for business
     $scope.showInfo = function(marker, eventName, markerModel) {
-      $scope.infoBusiness = markerModel;
-      $scope.infoVisible = true;
+      console.log(marker, eventName, markerModel);
+      //$scope.infoBusiness = markerModel;
+      //$scope.infoVisible = true;
+      $scope.detail = markerModel;
+      $scope.show_detail = "name";
+      console.log("marker click", $scope.infoBusiness, $scope.show_detail);
     };
 
     // Hide infoWindow when 'x' is clicked
@@ -47,6 +51,7 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
 
     var initializeMap = function(position) {
       if (position) {
+        $scope.position = position;
         var outOfBounds = (
           position.coords.latitude  > 22.60  ||
           position.coords.latitude  < 22.19  ||
@@ -64,7 +69,7 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
           }
         };
       }
-      console.log(position);
+
       // TODO add marker on current location
 
       $scope.map = {
@@ -152,12 +157,16 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
 
       return {
         id: $index,
-        name: "name",
-        url: "http://www.google.com",
+        name:     ($rootScope.script=="english") ? stand.Name : stand.名稱,
+        district: ($rootScope.script=="english") ? stand.District : stand.地區,
+        description: stand.Location + (stand.pano?"":" (Approximate marker location only)"),
+        hours: stand.Hours,
         location: {
-          latitude: parseFloat(stand.Lattitude),
+          latitude: parseFloat(stand.Latitude),
           longitude: parseFloat(stand.Longitude)
         },
+        image: stand.pano ? "https://maps.googleapis.com/maps/api/streetview?size=600x600&fov=120&pano=" + stand.pano + "&heading=" + stand.heading : "https://maps.googleapis.com/maps/api/streetview?size=600x600&pano=not_yet",
+        directions: "https://www.google.com.hk/maps/dir/" + $scope.map.center.latitude + "," + $scope.map.center.longitude + "/" + parseFloat(stand.Latitude) + "," + parseFloat(stand.Longitude) + "/data=!4m2!4m1!3e2",
         options: {
           draggable: false,
           icon: color ? "img/marker-" + color + ".png" : "img/marker-grey.png"
