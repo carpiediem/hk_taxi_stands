@@ -1,4 +1,4 @@
-<ion-view view-title="HK Taxi Stands">
+<ion-view view-title="HK Taxi Stands" hasheader="true" ng-click="expand_details()">
 
   <ion-nav-buttons side="secondary">
     <button class="button button-icon {{visibleTypes}}" id="type_toggle"     ng-click="typeSelectionModal.show()"></button>
@@ -8,31 +8,17 @@
     </button>
   </ion-nav-buttons>
 
-  <ion-content>
+  <leaflet markers="markers" center="center" defaults="defaults"></leaflet>
 
-    <ui-gmap-google-map center='map.center' zoom='map.zoom' events='{click:hide_details}'>
-      <ui-gmap-markers models="markers" coords="'location'" icon="'icon'" click="show_details"></ui-gmap-markers>
-    </ui-gmap-google-map>
-
-    <div id="detail" class="{{show_detail}}" ng-click="expand_details()" on-drag-up="expand_details()" on-drag-down="hide_details()">
-      <a class="button icon ion-android-walk" href="{{detail.directions}}" target="_blank"></a>
-      <div class="title {{detail.category}}">
-        <h1>{{detail.name}}</h1>
-        <p>
-          {{detail.district}} |
-          <span>Cross-Harbour Taxi Stand</span>
-        </p>
-      </div>
-      <div class="row">
-        <p>{{detail.description}}</p>
-        <span class="item-note">{{detail.hours}}</span>
-      </div>
-      <div class="row">
-        <img src="{{detail.image}}" />
-      </div>
+  <div id="detail" class="{{show_detail}}">
+    <div class="row row-dark">
+      <h1>Taxi Stand Name</h1>
+      <p>Some District</p>
     </div>
-
-  </ion-content>
+    <div class="row">
+      <img src="https://maps.googleapis.com/maps/api/streetview?size=600x600&pano=RufpRQ5vqNdI5eVtknSm9g&heading=96.02&fov=120" />
+    </div>
+  </div>
 
 
   <script id="type-selection-modal.html" type="text/ng-template">
@@ -76,6 +62,20 @@
           </a>
 
         </div>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+
+
+  <script id="stand-detail-modal.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <button class="button button-clear button-icon button-dark icon ion-arrow-left-a" ng-click="standDetailModal.hide()"></button>
+        <h1 class="title" ng-if="script=='english'">{{detail.name}}</h1>
+        <h1 class="title" ng-if="script=='chinese'">{{detail.name_chi}}</h1>
+      </ion-header-bar>
+      <ion-content>
+        <img ng-src="{{detail.image}}">
       </ion-content>
     </ion-modal-view>
   </script>

@@ -1,12 +1,4 @@
 {
-"name": "HK Taxi Stands",
-"app_id": "db5134a0"
-  "gulpStartupTasks": [
-    "sass",
-    "watch"
-  ],
-  "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
-  ]
+  "name": "HK Taxi Stands",
+  "app_id": "db5134a0"
 }
