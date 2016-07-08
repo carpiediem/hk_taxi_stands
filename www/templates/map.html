@@ -10,13 +10,13 @@
 
   <ion-content>
 
-    <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-      <ui-gmap-markers models="markers" coords="'location'" icon="'options.icon'" click="showInfo"></ui-gmap-markers>
+    <ui-gmap-google-map center='map.center' zoom='map.zoom' events='{click:hide_details}'>
+      <ui-gmap-markers models="markers" coords="'location'" icon="'icon'" click="show_details"></ui-gmap-markers>
     </ui-gmap-google-map>
 
     <div id="detail" class="{{show_detail}}" ng-click="expand_details()" on-drag-up="expand_details()" on-drag-down="hide_details()">
       <a class="button icon ion-android-walk" href="{{detail.directions}}" target="_blank"></a>
-      <div class="title">
+      <div class="title {{detail.category}}">
         <h1>{{detail.name}}</h1>
         <p>
           {{detail.district}} |

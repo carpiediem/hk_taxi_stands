@@ -1,6 +1,6 @@
 {
-  "name": "ionic_angular_google_maps_example",
-  "app_id": "",
+"name": "HK Taxi Stands",
+"app_id": "db5134a0"
   "gulpStartupTasks": [
     "sass",
     "watch"

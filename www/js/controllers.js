@@ -1,37 +1,20 @@
-angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
+angular.module('hk_taxi_stands.controllers', [])
 
   .controller('MenuCtrl', function() {})
 
   .controller('MapCtrl', function($scope, $rootScope, $ionicModal, $timeout, $cordovaGeolocation, uiGmapGoogleMapApi, $http, fCsv) {
 
     $scope.markers = [];
-    $scope.infoVisible = false;
-    $scope.infoBusiness = {};
-
     $scope.show_detail = "none";
     $scope.visibleTypes = "all";
     $rootScope.script = "english";
     $scope.toggleLanguage = toggleLanguage;
     $scope.displayType = displayType;
+    $scope.show_details = show_details;
     $scope.expand_details = expand_details;
     $scope.hide_details  = hide_details;
     $scope.detail = null;
     $scope.typeSelectionModal = null;
-
-    // Initialize and show infoWindow for business
-    $scope.showInfo = function(marker, eventName, markerModel) {
-      console.log(marker, eventName, markerModel);
-      //$scope.infoBusiness = markerModel;
-      //$scope.infoVisible = true;
-      $scope.detail = markerModel;
-      $scope.show_detail = "name";
-      console.log("marker click", $scope.infoBusiness, $scope.show_detail);
-    };
-
-    // Hide infoWindow when 'x' is clicked
-    $scope.hideInfo = function() {
-      $scope.infoVisible = false;
-    };
 
     function toggleLanguage() {
       switch ($rootScope.script) {
@@ -46,8 +29,26 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
     function displayType(name) {
       $scope.visibleTypes = name;
       $scope.typeSelectionModal.hide();
+      hide_details();
       loadMarkers();
     }
+
+    function show_details(marker, eventName, markerModel) {
+      $scope.detail = markerModel;
+      $scope.show_detail = "peek";
+      $timeout(function(){ $scope.show_detail = "name"; }, 1000);
+    }
+
+    function expand_details() {
+      $scope.show_detail = "all";
+    }
+
+    function hide_details() {
+      $scope.show_detail = "none";
+    }
+
+
+
 
     var initializeMap = function(position) {
       if (position) {
@@ -113,6 +114,7 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
 
     function loadMarkers() {
       $http.get('hk_taxi_stands.csv').then(function(resp) {
+        //console.log("unfiltered", angular.fromJson(fCsv.toJson(resp.data)));
         $scope.markers = angular.fromJson(fCsv.toJson(resp.data)).filter(filterByType).map(toMarker);
         //console.log("markers", $scope.markers);
       });
@@ -120,43 +122,20 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
 
     function filterByType(stand) {
       if ($scope.visibleTypes == "all") return true;
-      switch (stand.Category) {
-        case "C":
-          return ($scope.visibleTypes == "cross");
-          break;
-        case "CU":
-          return ($scope.visibleTypes == "cross") || ($scope.visibleTypes == "urban");
-          break;
-        case "L":
-          return (stand.Category=="lantau");
-          break;
-        case "N":
-          return (stand.Category=="newterr");
-          break;
-        case "NU":
-          return (stand.Category=="newterr") || ($scope.visibleTypes == "urban");
-          break;
-        case "U":
-          return (stand.Category=="urban");
-          break;
+      switch ($scope.visibleTypes) {
+        default:
+        case "all":     return true;
+        case "urban":   return (stand.Category.indexOf("U")>=0);
+        case "cross":   return (stand.Category.indexOf("C")>=0);
+        case "lantau":  return (stand.Category.indexOf("L")>=0);
+        case "newterr": return (stand.Category.indexOf("N")>=0);
       }
     }
 
     function toMarker(stand, $index) {
-      switch (stand.Category) {
-        case "U":
-          var color = "red";
-          break;
-        case "NT":
-          var color = "green";
-          break;
-        case "L":
-          var color = "blue";
-          break;
-      }
-
       return {
         id: $index,
+        category: stand.Category,
         name:     ($rootScope.script=="english") ? stand.Name : stand.名稱,
         district: ($rootScope.script=="english") ? stand.District : stand.地區,
         description: stand.Location + (stand.pano?"":" (Approximate marker location only)"),
@@ -165,28 +144,11 @@ angular.module('hk_taxi_stands.controllers', ['hk_taxi_stands.services'])
           latitude: parseFloat(stand.Latitude),
           longitude: parseFloat(stand.Longitude)
         },
-        image: stand.pano ? "https://maps.googleapis.com/maps/api/streetview?size=600x600&fov=120&pano=" + stand.pano + "&heading=" + stand.heading : "https://maps.googleapis.com/maps/api/streetview?size=600x600&pano=not_yet",
+        image: stand.pano ? "https://maps.googleapis.com/maps/api/streetview?size=600x300&fov=120&pano=" + stand.pano + "&heading=" + stand.heading : "https://maps.googleapis.com/maps/api/streetview?size=600x600&pano=not_yet",
         directions: "https://www.google.com.hk/maps/dir/" + $scope.map.center.latitude + "," + $scope.map.center.longitude + "/" + parseFloat(stand.Latitude) + "," + parseFloat(stand.Longitude) + "/data=!4m2!4m1!3e2",
-        options: {
-          draggable: false,
-          icon: color ? "img/marker-" + color + ".png" : "img/marker-grey.png"
-        },
-        click: show_detail
+        icon: "img/marker-" + stand.Category + ".png"
       };
 
-    }
-
-    function show_detail(args, eventName) {
-      $scope.detail = $scope.markers[args.key];
-      $scope.show_detail = "name";
-    }
-
-    function expand_details() {
-      $scope.show_detail = "all";
-    }
-
-    function hide_details() {
-      $scope.show_detail = "none";
     }
 
     $ionicModal.fromTemplateUrl('type-selection-modal.html', {
