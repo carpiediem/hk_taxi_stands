@@ -2,9 +2,12 @@
 <widget id="us.rslc.hk_taxi_stands" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>HK Taxi Stands</name>
   <description>A mobile app for locating taxi stands in Hong Kong</description>
-  <author email="carpiediem@gmail.com" href="http://rslc.us/">&#xD;Ryan SL Carpenter&#xD;</author>
+  <author email="ryan.sl.carpenter@gmail.com" href="http://rslc.us/">&#xD;Ryan SL Carpenter&#xD;</author>
   <content src="index.html"/>
-  <access origin="*"/>
+  <access origin="https://maps.googleapis.com/maps/api/streetview?*"/>
+  <allow-navigation href="https://www.google.com.hk/*" />
+  <allow-intent href="mailto:ryan.sl.carpenter@gmail.com?*" />
+  <allow-intent href="tel:*" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>

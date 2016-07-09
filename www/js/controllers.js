@@ -16,6 +16,25 @@ angular.module('hk_taxi_stands.controllers', [])
     $scope.detail = null;
     $scope.typeSelectionModal = null;
 
+    var longCats = {
+      english: {
+        U: "Urban Taxi Stand (Local)",
+        N: "New Territories Taxi Stand",
+        C: "Cross-Harbour Taxi Stand",
+        L: "Lantau Island Taxi Stand",
+        CU: "Urban Taxi Stands for Local & Cross-Harbour",
+        NU: "Taxi Stands for Urban & New Territories"
+      },
+      chinese: {
+        U: "市區的士站（本地）",
+        N: "新界的士站",
+        C: "海底的士站",
+        L: "大嶼山的士站",
+        CU: "市區海底的士站",
+        NU: "市區新界的士站"
+      }
+    }
+
     function toggleLanguage() {
       switch ($rootScope.script) {
         case "english":
@@ -24,6 +43,9 @@ angular.module('hk_taxi_stands.controllers', [])
         default:
           $rootScope.script = "english";
       }
+      $scope.markers = [];
+      hide_details();
+      loadMarkers();
     }
 
     function displayType(name) {
@@ -136,6 +158,7 @@ angular.module('hk_taxi_stands.controllers', [])
       return {
         id: $index,
         category: stand.Category,
+        longcat: longCats[$rootScope.script][stand.Category],
         name:     ($rootScope.script=="english") ? stand.Name : stand.名稱,
         district: ($rootScope.script=="english") ? stand.District : stand.地區,
         description: stand.Location + (stand.pano?"":" (Approximate marker location only)"),

@@ -28,7 +28,7 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
   position: absolute;
   top: 100%;
   width: 100%;
-  height: 400px;
+  height: auto;
   background-color: white;
   -webkit-transition: 1s ease-in-out;
   -moz-transition: 1s ease-in-out;
@@ -38,7 +38,7 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
 
 #detail.none { transform: translateY(  30px); }
 #detail.name { transform: translateY( -70px); }
-#detail.peek { transform: translateY(-150px); }
+#detail.peek { transform: translateY(-250px); }
 #detail.all  { transform: translateY(-400px); }
 
 #detail .title {
