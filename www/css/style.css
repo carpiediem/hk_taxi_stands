@@ -103,9 +103,15 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
   top: 20px;
 }
 
+#depots .item-button-right .button i.ion-ios-telephone {
+  left: 8px;
+}
+
 #depots .item-button-right .button:nth-child(5) {
   right: 70px;
 }
+
+
 
 #feedback img {
   width: 100%;

@@ -4,10 +4,12 @@
   <description>A mobile app for locating taxi stands in Hong Kong</description>
   <author email="ryan.sl.carpenter@gmail.com" href="http://rslc.us/">&#xD;Ryan SL Carpenter&#xD;</author>
   <content src="index.html"/>
-  <access origin="https://maps.googleapis.com/maps/api/streetview?*"/>
-  <allow-navigation href="https://www.google.com.hk/*" />
-  <allow-intent href="mailto:ryan.sl.carpenter@gmail.com?*" />
+  <access origin="*"/>
+  <allow-intent href="https://www.google.com.hk/*" />
+  <allow-intent href="https://itunes.apple.com/*" />
+  <allow-intent href="https://play.google.com/*" />
   <allow-intent href="tel:*" />
+  <allow-intent href="mailto:*" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>

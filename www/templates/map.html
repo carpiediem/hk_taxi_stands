@@ -8,23 +8,23 @@
     </button>
   </ion-nav-buttons>
 
-  <ion-content>
+  <ion-content scroll="false">
 
     <ui-gmap-google-map center='map.center' zoom='map.zoom' events='{click:hide_details}'>
       <ui-gmap-markers models="markers" coords="'location'" icon="'icon'" click="show_details"></ui-gmap-markers>
     </ui-gmap-google-map>
 
-    <div id="detail" class="{{show_detail}}" ng-click="expand_details()" on-drag-up="expand_details()" on-drag-down="hide_details()">
+    <div id="detail" class="{{show_detail}}">
       <a class="button icon ion-android-walk" href="{{detail.directions}}" target="_blank"></a>
-      <div class="title {{detail.category}}">
+      <div class="title {{detail.category}}" ng-click="expand_details()" on-drag-up="expand_details()" on-drag-down="hide_details()">
         <h1>{{detail.name}}</h1>
         <p>{{detail.district}} | {{detail.longcat}}</p>
       </div>
-      <div class="row">
+      <div class="row" on-drag-down="hide_details()">
         <p>{{detail.description}}</p>
         <span class="item-note">{{detail.hours}}</span>
       </div>
-      <div class="row">
+      <div class="row" on-drag-down="hide_details()">
         <img src="{{detail.image}}" />
       </div>
     </div>
