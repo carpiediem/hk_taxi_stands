@@ -47,6 +47,15 @@ var app = angular.module('hk_taxi_stands', ['ionic', 'ngCordova', 'uiGmapgoogle-
         }
       })
 
+      .state('app.about', {
+        url: '/about',
+        views: {
+          'menuContent': {
+            templateUrl: 'templates/about.html'
+          }
+        }
+      })
+
       .state('app.apps', {
         url: '/apps',
         views: {

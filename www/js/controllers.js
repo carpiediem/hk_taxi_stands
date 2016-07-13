@@ -23,7 +23,9 @@ angular.module('hk_taxi_stands.controllers', [])
         C: "Cross-Harbour Taxi Stand",
         L: "Lantau Island Taxi Stand",
         CU: "Urban Taxi Stands for Local & Cross-Harbour",
-        NU: "Taxi Stands for Urban & New Territories"
+        NU: "Taxi Stands for Urban & New Territories",
+        LU: "Taxi Stands for Urban & Lantau",
+        LNU: "Taxi Stands of all Colors"
       },
       chinese: {
         U: "市區的士站（本地）",
@@ -138,7 +140,7 @@ angular.module('hk_taxi_stands.controllers', [])
       $http.get('hk_taxi_stands.csv').then(function(resp) {
         //console.log("unfiltered", angular.fromJson(fCsv.toJson(resp.data)));
         $scope.markers = angular.fromJson(fCsv.toJson(resp.data)).filter(filterByType).map(toMarker);
-        //console.log("markers", $scope.markers);
+        console.log("markers", $scope.markers);
       });
     }
 
@@ -155,10 +157,11 @@ angular.module('hk_taxi_stands.controllers', [])
     }
 
     function toMarker(stand, $index) {
+      var shortcat = stand.Category.replace(/\&/g,"");
       return {
         id: $index,
-        category: stand.Category,
-        longcat: longCats[$rootScope.script][stand.Category],
+        category: shortcat,
+        longcat: longCats[$rootScope.script][shortcat],
         name:     ($rootScope.script=="english") ? stand.Name : stand.名稱,
         district: ($rootScope.script=="english") ? stand.District : stand.地區,
         description: stand.Location + (stand.pano?"":" (Approximate marker location only)"),
@@ -169,7 +172,7 @@ angular.module('hk_taxi_stands.controllers', [])
         },
         image: stand.pano ? "https://maps.googleapis.com/maps/api/streetview?size=600x300&fov=120&pano=" + stand.pano + "&heading=" + stand.heading : "https://maps.googleapis.com/maps/api/streetview?size=600x600&pano=not_yet",
         directions: "https://www.google.com.hk/maps/dir/" + $scope.map.center.latitude + "," + $scope.map.center.longitude + "/" + parseFloat(stand.Latitude) + "," + parseFloat(stand.Longitude) + "/data=!4m2!4m1!3e2",
-        icon: "img/marker-" + stand.Category + ".png"
+        icon: "img/marker-" + shortcat + ".png"
       };
 
     }
