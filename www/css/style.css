@@ -8,16 +8,17 @@ button#language_toggle {
 }
 
 button#type_toggle,
-#type_selector .item i.hts-type  {
+#type_selector .item i.hts-type,
+#aboutcolors .item-icon-left i.taxi-icon {
   background-image: url("../img/icons.png");
   background-repeat: no-repeat;
   width: 28px;
 }
 
-button#type_toggle.urban,  #type_selector .item i.hts-type.urban   {background-position:    0px 1px;}
-button#type_toggle.newterr,#type_selector .item i.hts-type.newterr {background-position:  -28px 1px;}
-button#type_toggle.lantau, #type_selector .item i.hts-type.lantau  {background-position:  -56px 1px;}
-button#type_toggle.cross,  #type_selector .item i.hts-type.cross   {background-position:  -84px 1px;}
+button#type_toggle.urban,  #type_selector .item i.hts-type.urban,   #aboutcolors .item-icon-left i.taxi-icon.U {background-position:    0px 1px;}
+button#type_toggle.newterr,#type_selector .item i.hts-type.newterr, #aboutcolors .item-icon-left i.taxi-icon.N {background-position:  -28px 1px;}
+button#type_toggle.lantau, #type_selector .item i.hts-type.lantau,  #aboutcolors .item-icon-left i.taxi-icon.L {background-position:  -56px 1px;}
+button#type_toggle.cross,  #type_selector .item i.hts-type.cross,   #aboutcolors .item-icon-left i.taxi-icon.C {background-position:  -84px 1px;}
 button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-position: -112px 1px;}
 
 #type_selector .item i.hts-type {
@@ -93,6 +94,39 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
   #detail img {
     width: 100%;
   }
+}
+
+#aboutcolors img {
+  width: 100%;
+  margin: 0 10px;
+}
+
+#aboutcolors .item ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+#aboutcolors table {
+  margin: 5px auto;
+  border: solid thin grey;
+  border-collapse: collapse;
+}
+
+#aboutcolors tr {
+  border: solid thin grey;
+}
+
+#aboutcolors th, #aboutcolors td {
+  padding: 5px;
+  vertical-align: middle;
+}
+
+#aboutcolors th {
+  font-weight: bold;
+}
+
+#aboutcolors td:nth-child(2) {
+  text-align: right;
 }
 
 #otherapps div.list div.item p {
