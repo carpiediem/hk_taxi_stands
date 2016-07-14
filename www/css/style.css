@@ -63,7 +63,7 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
   font-style: italic;
 }
 
-#detail a.button {
+#detail .button {
   width: 60px;
   height: 60px;
   position: absolute;
@@ -71,6 +71,16 @@ button#type_toggle.all,    #type_selector .item i.hts-type.all     {background-p
   right: 10px;
   border-radius: 30px;
   padding-top: 7px;
+}
+
+#detail .button.ion-android-locate {
+  top: -105px;
+  color: #2677FF
+}
+
+#detail .button.ion-android-locate:before {
+  font-size: 36px !important;
+  margin-top: -2px;
 }
 
 #detail img {

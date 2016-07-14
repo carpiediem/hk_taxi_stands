@@ -13,6 +13,7 @@ angular.module('hk_taxi_stands.controllers', [])
     $scope.show_details = show_details;
     $scope.expand_details = expand_details;
     $scope.hide_details  = hide_details;
+    $scope.center_map = center_map;
     $scope.detail = null;
     $scope.typeSelectionModal = null;
 
@@ -71,6 +72,10 @@ angular.module('hk_taxi_stands.controllers', [])
       $scope.show_detail = "none";
     }
 
+    function center_map() {
+      $scope.map.center = angular.copy($scope.map.currentPos.coords);
+    }
+
 
 
 
@@ -95,23 +100,59 @@ angular.module('hk_taxi_stands.controllers', [])
         };
       }
 
-      // TODO add marker on current location
-
       $scope.map = {
         center: {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         },
-        zoom: 15
-      };
-
-      // Make info window for marker show up above marker
-      $scope.windowOptions = {
-        pixelOffset: {
-          height: -32,
-          width: 0
+        zoom: 15,
+        options: {
+          zoomControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
+          streetViewControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM }
+        },
+        currentPos: {
+          id: 'currentpos',
+          coords: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          },
+          options: {
+            draggable: false,
+            clickable: false,
+            zIndex: 1000
+          },
+          events: {},
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,  //wanted FORWARD_CLOSED_ARROW, but having trouble getting device heading
+            scale: 5,
+            fillColor: '#2677FF',
+            fillOpacity: 1,
+            strokeColor: '#2677FF',
+            strokeOpacity: 1,
+            strokeWeight: 1,
+            rotation: position.coords.heading
+          }
         }
       };
+
+      var watchOptions = {
+        timeout : 3000,
+        enableHighAccuracy: false // may cause errors if true
+      };
+      var watch = $cordovaGeolocation.watchPosition(watchOptions);
+      watch.then(
+        null,
+        function(err) {
+          // error
+        },
+        function(position) {
+          //console.log("position update", position);
+          $scope.map.currentPos.coords = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          };
+          //$scope.map.currentPos.icon.rotation = position.coords.heading;
+      });
 
       loadMarkers();
 
@@ -140,7 +181,7 @@ angular.module('hk_taxi_stands.controllers', [])
       $http.get('hk_taxi_stands.csv').then(function(resp) {
         //console.log("unfiltered", angular.fromJson(fCsv.toJson(resp.data)));
         $scope.markers = angular.fromJson(fCsv.toJson(resp.data)).filter(filterByType).map(toMarker);
-        console.log("markers", $scope.markers);
+        //console.log("markers", $scope.markers);
       });
     }
 
