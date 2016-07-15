@@ -51,7 +51,8 @@ var app = angular.module('hk_taxi_stands', ['ionic', 'ngCordova', 'uiGmapgoogle-
         url: '/about',
         views: {
           'menuContent': {
-            templateUrl: 'templates/about.html'
+            templateUrl: 'templates/about.html',
+            controller: 'AboutCtrl'
           }
         }
       })
@@ -60,7 +61,8 @@ var app = angular.module('hk_taxi_stands', ['ionic', 'ngCordova', 'uiGmapgoogle-
         url: '/apps',
         views: {
           'menuContent': {
-            templateUrl: 'templates/apps.html'
+            templateUrl: 'templates/apps.html',
+            controller: 'AppsCtrl'
           }
         }
       })
@@ -79,7 +81,8 @@ var app = angular.module('hk_taxi_stands', ['ionic', 'ngCordova', 'uiGmapgoogle-
         url: '/feedback',
         views: {
           'menuContent': {
-            templateUrl: 'templates/feedback.html'
+            templateUrl: 'templates/feedback.html',
+            controller: 'FeedbackCtrl'
           }
         }
       });

@@ -2,7 +2,7 @@ angular.module('hk_taxi_stands.controllers', [])
 
   .controller('MenuCtrl', function() {})
 
-  .controller('MapCtrl', function($scope, $rootScope, $ionicModal, $timeout, $cordovaGeolocation, uiGmapGoogleMapApi, $http, fCsv) {
+  .controller('MapCtrl', function($scope, $rootScope, $ionicModal, $ionicPlatform, $timeout, $cordovaDevice, $cordovaGeolocation, $cordovaGoogleAnalytics, uiGmapGoogleMapApi, $http, fCsv) {
 
     $scope.markers = [];
     $scope.show_detail = "none";
@@ -14,6 +14,7 @@ angular.module('hk_taxi_stands.controllers', [])
     $scope.expand_details = expand_details;
     $scope.hide_details  = hide_details;
     $scope.center_map = center_map;
+    $scope.record_directions = record_directions;
     $scope.detail = null;
     $scope.typeSelectionModal = null;
 
@@ -49,6 +50,7 @@ angular.module('hk_taxi_stands.controllers', [])
       $scope.markers = [];
       hide_details();
       loadMarkers();
+      $cordovaGoogleAnalytics.trackEvent('Map', 'Toggle Language', $rootScope.script);
     }
 
     function displayType(name) {
@@ -62,10 +64,12 @@ angular.module('hk_taxi_stands.controllers', [])
       $scope.detail = markerModel;
       $scope.show_detail = "peek";
       $timeout(function(){ $scope.show_detail = "name"; }, 1000);
+      $cordovaGoogleAnalytics.trackEvent('Detail Pane', 'Show', markerModel.name);
     }
 
     function expand_details() {
       $scope.show_detail = "all";
+      $cordovaGoogleAnalytics.trackEvent('Detail Pane', 'Expand', $scope.detail.name);
     }
 
     function hide_details() {
@@ -74,6 +78,11 @@ angular.module('hk_taxi_stands.controllers', [])
 
     function center_map() {
       $scope.map.center = angular.copy($scope.map.currentPos.coords);
+      $cordovaGoogleAnalytics.trackEvent('Map', 'Re-Center');
+    }
+
+    function record_directions() {
+      $cordovaGoogleAnalytics.trackEvent('Detail Pane', 'Directions', $scope.detail.name);
     }
 
 
@@ -82,6 +91,9 @@ angular.module('hk_taxi_stands.controllers', [])
     var initializeMap = function(position) {
       if (position) {
         $scope.position = position;
+        $cordovaGoogleAnalytics.trackEvent('Sensors', 'Location', 'Latitude',  parseInt(position.coords.latitude*100));
+        $cordovaGoogleAnalytics.trackEvent('Sensors', 'Location', 'Longitude', parseInt(position.coords.longitude*100));
+        $cordovaGoogleAnalytics.trackEvent('Sensors', 'Location', 'Heading',   parseInt(position.coords.heading, 10));
         var outOfBounds = (
           position.coords.latitude  > 22.60  ||
           position.coords.latitude  < 22.19  ||
@@ -177,6 +189,16 @@ angular.module('hk_taxi_stands.controllers', [])
       }
     }, 5000);
 
+    // Send pageview analytics and set up event triggers
+    $ionicPlatform.ready(function() {
+      var device = $cordovaDevice.getDevice();
+      //$cordovaGoogleAnalytics.debugMode();
+      $cordovaGoogleAnalytics.startTrackerWithId('UA-42937954-5');
+      $cordovaGoogleAnalytics.trackView('Map Screen');
+      $cordovaGoogleAnalytics.addCustomDimension('device model', device.model);
+      $cordovaGoogleAnalytics.addCustomDimension('device platform', device.platform);
+    });
+
     function loadMarkers() {
       $http.get('hk_taxi_stands.csv').then(function(resp) {
         //console.log("unfiltered", angular.fromJson(fCsv.toJson(resp.data)));
@@ -240,4 +262,28 @@ angular.module('hk_taxi_stands.controllers', [])
       console.log("depots", $scope.depots);
     });
 
+  })
+
+  .controller('AboutCtrl', function($ionicPlatform, $cordovaGoogleAnalytics) {
+    $ionicPlatform.ready(function() {
+      $cordovaGoogleAnalytics.trackView('About Screen');
+    });
+  })
+
+  .controller('AppsCtrl', function($ionicPlatform, $cordovaGoogleAnalytics) {
+    $ionicPlatform.ready(function() {
+      $cordovaGoogleAnalytics.trackView('Apps Screen');
+    });
+  })
+
+  .controller('DepotsCtrl', function($ionicPlatform, $cordovaGoogleAnalytics) {
+    $ionicPlatform.ready(function() {
+      $cordovaGoogleAnalytics.trackView('Depots Screen');
+    });
+  })
+
+  .controller('FeedbackCtrl', function($ionicPlatform, $cordovaGoogleAnalytics) {
+    $ionicPlatform.ready(function() {
+      $cordovaGoogleAnalytics.trackView('Feedback Screen');
+    });
   });
