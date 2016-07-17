@@ -197,6 +197,20 @@ angular.module('hk_taxi_stands.controllers', [])
       $cordovaGoogleAnalytics.trackView('Map Screen');
       $cordovaGoogleAnalytics.addCustomDimension('device model', device.model);
       $cordovaGoogleAnalytics.addCustomDimension('device platform', device.platform);
+
+      var ad_units = {
+          ios : {
+              //banner:"",
+              //interstitial:""
+          },
+          android : {
+              banner:"ddfa2c73489d49459b8027466742deab",
+              //interstitial:""
+          }
+      };
+      var adid = (/(android)/i.test(navigator.userAgent)) ? ad_units.android : ad_units.ios;
+      if(typeof MoPub !== 'undefined') MoPub.createBanner( adid.banner );
+
     });
 
     function loadMarkers() {

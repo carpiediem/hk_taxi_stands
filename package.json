@@ -32,6 +32,7 @@
     "cordova-plugin-splashscreen",
     "cordova-plugin-google-analytics",
     "cordova-plugin-geolocation",
+    "cordova-plugin-mopub",
     "com.ionic.keyboard"
   ],
   "cordovaPlatforms": [
